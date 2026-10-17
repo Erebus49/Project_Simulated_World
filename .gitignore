@@ -1,0 +1,33 @@
+node_modules/
+dist/
+.data/
+.env
+.env.*
+!.env.example
+test-results/
+playwright-report/
+*.log
+.DS_Store
+
+# Nested repositories and local runtime artifacts
+**/.git/
+**/.venv/
+**/node_modules/
+**/dist/
+**/.vite/
+**/.data/
+**/test-results/
+**/playwright-report/
+**/.playwright-mcp/
+**/.lovable-local/
+**/__pycache__/
+**/playwright-artifacts/
+world/roleplay-town/data/
+tmp/
+
+# Local data and bundled runtime binaries
+world/roleplay-town/data/
+world/tools/cloudflared.exe
+**/*.sqlite
+**/*.sqlite-shm
+**/*.sqlite-wal

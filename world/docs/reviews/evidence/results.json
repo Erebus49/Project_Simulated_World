@@ -1,0 +1,49 @@
+{
+  "reviewDate": "2026-10-16",
+  "scope": "Architecture fit against docs/WORLD_RUNTIME_SPEC.md; offline tests and local probes only",
+  "worldseed": {
+    "repository": "AIScientists-Dev/WorldSeed",
+    "commit": "4ffeabfdee6dbeb1cb248bf676ad13667b22d359",
+    "environment": "Windows, Python 3.11.2, pytest 8.4.2, pytest-asyncio 1.4.0, source installed editable with base dependencies; UTF-8 explicitly enabled; no optional DM provider deps installed",
+    "testSelections": [
+      {"name": "core/perception/persistence/tick/DM-budget", "passed": 203, "failed": 21, "skipped": 21, "durationSeconds": 9.56},
+      {"name": "parameter/enumeration/constraints/perception-paths/wakeup", "passed": 98, "failed": 4, "skipped": 21, "durationSeconds": 17.17}
+    ],
+    "failureReason": "All 25 test failures in these selections require missing configs/bunker.yaml or configs/minimal.yaml. Tests were not patched or supplied replacement fixtures.",
+    "initialCollectionIssue": "Without -X utf8, dm/prompt.py reads shared/languages.json using Windows GBK and raises UnicodeDecodeError",
+    "sceneSmoke": {"scene": "teahouse.yaml", "cliValidation": "passed", "registeredAgentCountIncludingNarrator": 5, "ticks": 3, "mechanicalSaySucceeded": true, "llmCalls": 0},
+    "probe": {
+      "fifoWinners": {"A_then_B": "A", "B_then_A": "B"},
+      "publicMechanicalSubmit": {"sameAgentAcceptedTwiceAtTick0": true, "moneyAfterTwoEarnActions": 2},
+      "malformedMechanicalEffects": {"reportedSuccess": true, "buyerMoneyBefore": 10, "buyerMoneyAfter": 7, "vendorExists": false},
+      "topLevelHiddenGoalFiltered": true,
+      "privateMessageHiddenFromOutsider": true,
+      "undeclaredEventScopeDeliveredGlobally": true,
+      "parallelDMSharedEffectFinalWinner": {"Afast": "B", "Bfast": "A"},
+      "eventStableIdField": false,
+      "eventSourceEventIdsField": false
+    }
+  },
+  "agentWorld": {
+    "repository": "nicepkg/agent-world",
+    "commit": "81b6a7ffd1dc278e0cf2cc22e383401e56d79721",
+    "environment": "Windows, Node.js 22.15.0, pnpm 9.15.0 frozen lockfile with install scripts disabled; manually built packages/core, packages/world and packages/memory",
+    "originalTestSuite": {"filesPassed": 14, "passed": 153, "failed": 0, "durationSeconds": 1.45},
+    "initialTestPrerequisite": "Before core build, 146 tests passed and the two world suites could not resolve @agent-world/core exports. Building core resolved this.",
+    "helloWorld": {"agents": 5, "ticks": 20, "brain": "IdleBrainPlugin", "exitCode": 0},
+    "probe": {
+      "latencyChangesResourceWinner": {"Afast": "A", "Bfast": "B"},
+      "actionsExecutedAfterEngineStop": 1,
+      "gridIncludesOtherAgentTraitsWithoutPrivateFieldFiltering": true,
+      "snapshotBeforeLaterTickEffect": {"snapshotMoney": 0, "finalMoney": 9},
+      "directedSpeechAvailableToRecipientViaMemoryInSameTick": true,
+      "directedSpeechAvailableToOutsider": false
+    }
+  },
+  "limits": [
+    "No real model API calls, no paid tokens, no browser UI or deployment verification for either upstream project",
+    "WorldSeed tests are selected subsets, not the full suite",
+    "AgentWorld vitest root suite discovers core/world tests only; passing it does not validate LLM adapters, WebSocket integration or exact replay",
+    "Probe scenarios intentionally expose architectural contracts; they are not claims that every bundled scenario corrupts state or reveals private messages"
+  ]
+}

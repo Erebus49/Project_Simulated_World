@@ -1,0 +1,17 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch({ headless: true });
+const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+const errors = [];
+page.on('pageerror', error => errors.push(error.message));
+await page.goto('http://127.0.0.1:8011', { waitUntil: 'networkidle' });
+console.log('TITLE', await page.title());
+console.log('PICKER', await page.getByText('第一步 · 选择你的调查员').count());
+await page.getByRole('button', { name: /离线演示/ }).click();
+await page.getByRole('button', { name: '进入隔离区' }).click();
+await page.locator('.scene-title h2').waitFor({ timeout: 15000 });
+console.log('SCENE', await page.locator('.scene-title h2').innerText());
+console.log('ACTION', await page.locator('.case-title-block strong').innerText());
+console.log('MAP', await page.locator('.scene-svg').count());
+await page.screenshot({ path: '/tmp/investigation-smoke.png', fullPage: true });
+console.log('ERRORS', JSON.stringify(errors));
+await browser.close();

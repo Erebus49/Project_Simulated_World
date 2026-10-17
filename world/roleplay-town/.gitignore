@@ -1,0 +1,8 @@
+/node_modules/
+/dist-runtime/
+/dist-web/
+/data/
+/runtime-exports/
+.env
+.env.runtime
+*.log

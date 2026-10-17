@@ -1,0 +1,105 @@
+/* Comfortable reading defaults. Pixel graphics stay pixelated; UI text does
+   not inherit the tiny atlas resolution. */
+.immersive{font-size:15px}
+.immersive .world-mission h1{font-size:28px}
+.immersive .world-mission .night-eyebrow{font-size:11px}
+.immersive .world-mission p{font-size:13px}
+.immersive .night-topbar nav>button{font-size:13px}
+.immersive .night-topbar nav>.new-night-button{font-size:12px}
+.immersive .night-header-chapter{font-size:12px}
+.immersive .world-dialogue{width:min(800px,calc(100% - 48px));max-height:min(56dvh,500px)}
+.immersive .world-dialogue .night-interaction-header h2{font-size:18px}
+.immersive .world-dialogue .night-interaction-header h2 small{font-size:13px}
+.immersive .world-dialogue .night-interaction-header p{font-size:14px}
+.immersive .world-dialogue .night-composer textarea{font-size:16px;min-height:75px;line-height:1.8}
+.immersive .world-dialogue .night-composer>div{font-size:13px}
+.immersive .world-dialogue .night-composer>div>span{font-size:11px}
+.immersive .world-dialogue .night-composer button{font-size:14px;min-height:36px;padding:7px 13px}
+.immersive .world-dialogue .last-consequence{font-size:16px;line-height:1.85;padding:13px 16px}
+.immersive .world-dialogue .investigation-actions>button{font-size:14px;padding:10px 13px}
+.immersive .world-dialogue .locker-code{font-size:14px}
+.immersive .world-dialogue .locker-code input{font-size:21px}
+.immersive .world-journal{width:min(410px,calc(100% - 34px))}
+.immersive .world-journal .notebook-cover>span{font-size:18px}
+.immersive .world-journal .notebook-tabs button{font-size:15px}
+.immersive .world-journal .clue-page h3{font-size:18px}
+.immersive .world-journal .clue-page p{font-size:16px;line-height:1.95}
+.immersive .world-journal .clue-source{font-size:12px;line-height:1.75}
+.immersive .world-journal .clue-page-bottom{font-size:11px}
+.immersive .world-journal .notebook-bottom{font-size:12px}
+.immersive .world-journal .night-event p{font-size:16px;line-height:1.85}
+.immersive .world-journal .night-event>div{font-size:14px}
+.immersive .world-journal .night-event small{font-size:11px}
+.immersive .empty-notebook h3{font-size:17px}
+.immersive .empty-notebook p{font-size:15px}
+.immersive .empty-notebook>span{font-size:11px}
+.immersive .world-notebook-toggle>button{font-size:13px}
+.immersive .world-notebook-toggle b{font-size:12px}
+.immersive .world-timer .night-clock>span{font-size:11px}
+.immersive .world-timer .night-clock>strong{font-size:36px}
+.immersive .world-timer .night-clock strong>small{font-size:11px}
+.immersive .world-anomalies>span{font-size:11px}
+.immersive .world-timer{min-width:132px}
+.immersive .world-notebook-toggle{top:228px}
+.immersive .world-overview{top:281px}
+.immersive .phaser-nameplate>button{font-size:12px;padding:3px 6px}
+.immersive .phaser-marker{font-size:12px;padding:6px 8px}
+.immersive .phaser-marker kbd{font-size:10px}
+.immersive .nearby-hint{font-size:13px;padding:7px 10px}
+.immersive .nearby-hint kbd{font-size:12px}
+.immersive .world-feedback{font-size:15px;max-width:min(700px,calc(100% - 50px))}
+.immersive .world-keys,.immersive .world-inventory{font-size:12px}
+.immersive .world-keys>kbd{font-size:11px}
+.immersive .world-keys>small{font-size:11px}
+.immersive .world-bottom{min-height:54px}
+.immersive .night-weather{font-size:11px;bottom:72px}
+.immersive .world-tools{bottom:72px}
+.immersive .night-dialog>header h2{font-size:25px}
+.immersive .night-dialog .night-eyebrow{font-size:11px;letter-spacing:1.2px}
+.immersive .night-help{font-size:16px;line-height:1.9}
+.immersive .night-help strong{font-size:17px}
+.immersive .night-primary,.immersive .night-dialog-footer>span{font-size:14px}
+.immersive .night-mode-options strong{font-size:16px}
+.immersive .night-mode-options p{font-size:13px}
+.immersive .night-budget>span,.immersive .night-budget>button{font-size:13px}
+.immersive .night-goals summary,.immersive .night-goals>p{font-size:13px}
+.immersive .night-goals label,.immersive .night-goals textarea{font-size:14px}
+.immersive .night-settings label,.immersive .night-settings input,.immersive .night-settings select{font-size:15px}
+.immersive .night-settings>p{font-size:14px}
+.immersive .night-save-list strong{font-size:15px}
+.immersive .night-save-list small,.immersive .night-save-list>button>span{font-size:12px}
+.immersive .night-ending>p{font-size:16px;line-height:1.9}
+.immersive .night-ending>div>span{font-size:12px}
+.immersive .night-text-button{font-size:14px}
+.immersive .night-toast{font-size:14px}
+.immersive .npc-activity{display:block;color:#c9c8ad;background:#14272ba3;max-width:150px;white-space:nowrap;font-size:10px;line-height:1.6;padding:2px 5px;margin-top:2px;text-shadow:0 1px #051019}
+.immersive .font-toggle{font:600 17px Georgia,serif!important;border:1px solid #927f6b70!important;padding:5px 7px!important;min-width:34px;line-height:1!important;color:#dac5a4!important;background:#d4bb7e0c}
+.immersive .font-toggle>span{display:inline!important;font-size:11px!important;margin-left:1px}
+.world-intro{padding:21px 26px 0;color:#d1ccc2}
+.intro-progress{display:flex;gap:6px}
+.intro-progress>span{height:3px;flex:1;background:#41394b}
+.intro-progress>span.active{background:#a6c0a1}
+.intro-scene{display:flex;flex-direction:column;align-items:center;gap:11px;padding:24px 0 20px;color:#d3b98a}
+.intro-scene>span{font-size:12px;letter-spacing:2px;color:#8caaa0}
+.world-intro section>small{font-size:12px;color:#a89f86}
+.world-intro h3{font-size:21px;font-weight:500;line-height:1.6;margin:8px 0 15px;color:#ecdbc0}
+.world-intro p{font-size:16px;line-height:1.95;color:#c6cbbd}
+.world-intro section>aside{font-size:14px;line-height:1.9;background:#899b750b;border-left:2px solid #879c7055;padding:12px 14px;margin-top:18px;color:#a3afa1}
+.world-intro>footer{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:22px 0}
+.world-intro>footer>div{display:flex;gap:14px;align-items:center}
+.intro-skip,.intro-back{font-size:13px;color:#afa1b6!important;padding:8px 0;display:flex;align-items:center;gap:5px}
+.world-background{background:#677d640c;border:1px solid #7b8e6e38;padding:15px}
+.world-background p{font-size:16px;line-height:1.9;margin:8px 0 15px}
+.first-play-guide{position:absolute;top:205px;left:26px;width:280px;padding:15px 16px;background:#17232deF;border:1px solid #9f956f66;box-shadow:4px 4px 0 #020b1644;pointer-events:auto;z-index:16}
+.first-play-guide>div{display:flex;align-items:center;justify-content:space-between;gap:9px;color:#a8c3aa;font-size:11px;letter-spacing:.5px}
+.first-play-guide>div>button{display:flex;padding:4px;color:#b8c2b1}
+.first-play-guide h2{font-size:17px;font-weight:500;line-height:1.5;color:#e7d9b8;margin:9px 0}
+.first-play-guide p{font-size:14px;line-height:1.9;color:#bdc7bb}
+.guide-finish{display:flex;align-items:center;gap:7px;color:#b9d7ad!important;font-size:13px;padding:9px 0 0}
+.text-large .world-dialogue .night-composer textarea,.text-large .world-dialogue .last-consequence,.text-large .world-journal .clue-page p,.text-large .world-journal .night-event p{font-size:19px}
+.text-large .world-dialogue .night-interaction-header h2,.text-large .world-journal .clue-page h3{font-size:21px}
+.text-large .world-dialogue .night-interaction-header p,.text-large .world-dialogue .investigation-actions>button,.text-large .world-feedback{font-size:17px}
+.text-large .world-journal{width:min(450px,calc(100% - 28px))}
+@media(max-width:1000px){.immersive .world-keys>small{display:none}.immersive .world-inventory{font-size:10px}.immersive .night-header-chapter{display:none}.immersive .night-topbar nav{gap:15px}}
+@media(max-width:700px){.immersive .world-mission h1{font-size:22px}.immersive .world-mission p{font-size:11px;max-width:220px}.immersive .world-mission .night-eyebrow{font-size:8px}.immersive .world-timer{min-width:97px;padding:8px 9px}.immersive .world-timer .night-clock>span{font-size:9px}.immersive .world-timer .night-clock>strong{font-size:30px}.immersive .world-timer .night-clock strong>small{font-size:9px}.immersive .world-anomalies>span{font-size:9px}.immersive .world-notebook-toggle{top:195px}.immersive .world-notebook-toggle>button{font-size:12px;padding:8px}.immersive .world-overview{top:241px}.immersive .world-dialogue{max-height:58dvh;bottom:123px}.immersive .world-dialogue .night-interaction-header h2{font-size:17px}.immersive .world-dialogue .night-interaction-header h2 small{font-size:11px}.immersive .world-dialogue .night-interaction-header p{font-size:12px}.immersive .world-dialogue .night-composer textarea{font-size:16px;min-height:62px}.immersive .world-dialogue .night-composer>div{font-size:12px}.immersive .world-dialogue .night-composer>div>span{display:none}.immersive .world-dialogue .night-composer button{font-size:13px;min-height:35px}.immersive .world-dialogue .last-consequence{font-size:15px;line-height:1.8;padding:10px 12px}.immersive .world-dialogue .investigation-actions>button{font-size:13px;padding:9px 10px}.immersive .world-dialogue .locker-code{font-size:13px}.immersive .world-journal{width:min(410px,calc(100% - 20px));bottom:60px}.immersive .world-journal .clue-page p,.immersive .world-journal .night-event p{font-size:16px}.immersive .world-journal .clue-page h3{font-size:18px}.immersive .world-journal .clue-source{font-size:12px}.immersive .world-journal .notebook-tabs button{font-size:14px}.immersive .world-journal .notebook-cover>span{font-size:17px}.immersive .world-feedback{font-size:14px;bottom:128px}.immersive .world-keys{font-size:9px;gap:4px}.immersive .world-keys>kbd{font-size:8px}.immersive .world-bottom{min-height:49px;padding:10px 12px}.immersive .phaser-nameplate>button{font-size:11px;padding:3px 5px}.immersive .phaser-marker{font-size:11px;padding:5px 7px}.immersive .nearby-hint{font-size:11px;top:55%}.immersive .nearby-hint kbd{font-size:10px}.immersive .npc-activity{font-size:9px;max-width:130px}.immersive .night-topbar nav{gap:10px}.immersive .night-topbar nav>.new-night-button{font-size:10px}.immersive .night-topbar nav>.new-night-button>span{font-size:9px}.immersive .font-toggle{font-size:16px!important;min-width:31px;padding:5px 6px!important}.immersive .world-tools{bottom:64px}.immersive .touch-controls{bottom:62px}.immersive .night-weather{font-size:9px;bottom:124px}.immersive .world-actions>button{width:25px;height:25px}.immersive .night-dialog>header h2{font-size:22px}.immersive .night-dialog .night-eyebrow{font-size:9px}.immersive .night-dialog-footer>span{font-size:11px}.immersive .night-primary{font-size:13px}.immersive .night-mode-options strong{font-size:14px}.immersive .night-mode-options p{font-size:12px}.immersive .night-budget>span,.immersive .night-budget>button{font-size:11px}.immersive .night-goals summary{font-size:12px}.immersive .night-help{font-size:15px}.immersive .night-help strong{font-size:16px}.world-intro{padding:18px 20px 0}.intro-scene{padding:20px 0 16px}.world-intro h3{font-size:20px}.world-intro p{font-size:16px}.world-intro section>aside{font-size:14px;padding:11px 12px}.world-intro>footer{padding:20px 0}.intro-skip,.intro-back{font-size:12px}.first-play-guide{top:172px;left:14px;width:222px;padding:12px 13px;max-width:calc(100% - 28px)}.first-play-guide h2{font-size:16px;margin:8px 0}.first-play-guide p{font-size:13px;line-height:1.85}.first-play-guide>div{font-size:10px}.first-play-guide .guide-finish{font-size:12px}.world-hud:has(.first-play-guide)>.world-overview{display:none}.text-large .world-dialogue .night-composer textarea,.text-large .world-dialogue .last-consequence,.text-large .world-journal .clue-page p,.text-large .world-journal .night-event p{font-size:18px}.text-large .world-dialogue .investigation-actions>button{font-size:15px}}
+@media(max-width:430px){.immersive .night-brand{font-size:15px;letter-spacing:1px}.immersive .night-brand>span{width:25px}.immersive .night-topbar{padding:0 10px;gap:8px}.immersive .night-topbar nav{gap:8px}.immersive .world-mission{left:13px;max-width:230px}.immersive .world-mission h1{font-size:20px}.immersive .world-mission p{font-size:10px;max-width:222px}.immersive .world-mission .night-eyebrow{font-size:7px}.immersive .world-timer{right:11px;min-width:88px;padding:8px}.immersive .world-timer .night-clock>span{font-size:8px}.immersive .world-anomalies>span{font-size:8px}.immersive .world-keys{font-size:8px}.immersive .world-keys>kbd{font-size:8px}.immersive .world-bottom{gap:5px}.immersive .world-actions{gap:4px}.immersive .world-dialogue .night-composer>div{font-size:11px}.immersive .world-dialogue .night-interaction-header h2 small{font-size:10px}.immersive .world-dialogue .night-interaction-header p{font-size:12px}.immersive .night-dialog-footer{flex-wrap:wrap}.immersive .night-dialog-footer>span{font-size:11px}.immersive .night-dialog>header h2{font-size:21px}.immersive .night-mode-options p{font-size:11px}}

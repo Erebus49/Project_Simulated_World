@@ -1,0 +1,36 @@
+{
+  "name": "pinecone-world-runtime",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone Pinecone Town pixel roleplay game and multi-agent world runtime",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/tests/*.test.ts",
+    "check": "npm run typecheck && npm test",
+    "demo": "tsx src/demo.ts",
+    "build": "tsc && vite build",
+    "start": "node --env-file-if-exists=.env.runtime --import tsx src/server/main.ts",
+    "dev": "vite --host 127.0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/ws": "^8.18.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "phaser": "^4.2.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "ws": "^8.18.0",
+    "zod": "^3.25.76"
+  },
+  "engines": {
+    "node": ">=22.12"
+  }
+}

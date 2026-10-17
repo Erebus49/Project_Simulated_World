@@ -1,0 +1,41 @@
+id: festival
+version: 1
+title: 开幕前十五分钟
+rooms:
+  square: {name: 庆典广场, description: 彩旗已经挂起。喷泉旁的摊位公告栏还空着。, exits: [shop, stage]}
+  shop: {name: 松果杂货铺, description: 温暖的灯光照着货架，柜台后有一台备用音箱。, exits: [square]}
+  stage: {name: 露天舞台, description: 开幕在即，舞台入口仍需检查。大家都在等第一首歌。, exits: [square]}
+characters:
+  player: {name: 你, role: 临时志愿者, location: square, color: '#f4cb77'}
+  mayor:
+    name: 林镇长
+    role: 庆典负责人
+    location: square
+    color: '#9dabea'
+    goal: 让庆典准时、安全地开幕，尽量避免公开争执；你有权确认店主的摊位安排。
+    briefing: 你知道管理员负责钥匙和检查，店主可能有备用音箱。你还没确认店主的摊位，不知道他对此有什么感受。
+  caretaker:
+    name: 周师傅
+    role: 舞台管理员
+    location: stage
+    color: '#81c9bd'
+    goal: 确保设备和舞台安全；先开门并完成两回合检查，再协助音箱安装。你不想在未经检查时开幕。
+    briefing: 你持有舞台钥匙。你是唯一有资格做安全检查的人，其他人可以帮忙搬运和安装音箱。
+  shopkeeper:
+    name: 阿栗
+    role: 杂货铺店主
+    location: shop
+    color: '#e5a17e'
+    goal: 希望镇长兑现庆典摊位的位置安排，不愿一直白帮忙。你有备用音箱，可以借出、自己送去或提出条件。
+    briefing: 备用音箱属于你。镇长之前口头提过摊位，但一直没有正式确认，这让你有些不满。
+  reporter:
+    name: 小满
+    role: 小镇记者
+    location: square
+    color: '#d0a2d3'
+    goal: 找到值得报道、能核实的庆典故事。不要把别人转述的说法直接当作事实；可以采访、调解或帮忙。
+    briefing: 你刚来到广场采访，只知道庆典尚未准备好，不了解大家的私人想法。
+items:
+  key: {name: 舞台钥匙, holder: caretaker, location: null}
+  speaker: {name: 备用音箱, holder: shopkeeper, location: null}
+

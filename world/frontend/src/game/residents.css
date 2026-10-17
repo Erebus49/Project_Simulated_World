@@ -1,0 +1,14 @@
+.immersive .phaser-nameplate.has-chatter{z-index:5}
+.immersive .phaser-nameplate>button[data-e-target]{border-color:#e5c27b;color:#ffe2aa!important;box-shadow:0 0 0 1px #221d16}
+.immersive .phaser-nameplate>button>span{font-size:11px}
+.immersive .npc-activity{max-width:125px;overflow:hidden;text-overflow:ellipsis}
+.immersive .npc-chatter{bottom:66px;width:220px;max-width:calc(100vw - 32px);max-height:none;overflow:visible;padding:10px 13px;background:#202b2af5;border-color:#a8b799;color:#f0e8cf;font-size:15px;line-height:1.7;pointer-events:none;box-shadow:3px 4px 0 #071119a6}
+.immersive .npc-chatter:after{background:#202b2a;border-color:#a8b799}
+.immersive .npc-chatter>small{display:block;font-size:11px;line-height:1.4;color:#b1c5a6;margin-bottom:4px}
+.immersive .npc-chatter>span{display:block}
+.immersive .nearby-hint{display:flex;align-items:center;gap:13px;font-size:13px;white-space:nowrap}
+.immersive .nearby-hint>span{display:flex;align-items:center;gap:6px}
+.immersive .nearby-hint>button{pointer-events:auto;display:flex;align-items:center;gap:5px;padding:3px 0 3px 11px;border-left:1px solid #a8b79955;color:#c1d0b4;font-size:12px}
+.immersive .nearby-hint kbd{font-size:12px}
+.text-large .npc-chatter{font-size:17px}
+@media(max-width:700px){.immersive .npc-chatter{width:195px;font-size:15px;bottom:64px}.immersive .nearby-hint{font-size:12px;gap:9px;max-width:calc(100% - 20px)}.immersive .nearby-hint>button{font-size:11px;padding-left:8px}}

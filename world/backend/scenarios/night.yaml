@@ -1,0 +1,39 @@
+id: night
+version: 2
+title: 谢幕后，不要回头
+rooms:
+  square: {name: 庆典广场, description: 庆典早已散场，广播却还在重复你的名字。南侧铁门紧闭。, exits: [shop, stage]}
+  shop: {name: 松果杂货铺, description: 阿栗守着一本旧账册。柜台旁的回收柜锁着，锁上有三个数字轮。, exits: [square]}
+  stage: {name: 露天舞台, description: 空舞台的红灯没有熄灭。控制台上留着一个贴票框，旁边是静音开关和电闸。, exits: [square]}
+characters:
+  player: {name: 你, role: 夜归的志愿者, location: square, color: '#e7c780'}
+  mayor:
+    name: 林镇长
+    role: 留在广场的人
+    location: square
+    color: '#9dabea'
+    goal: 你执意让谢幕仪式继续，愿意劝玩家按红字要求播放音乐。你不确定自己是否被广播影响，不要假装知道锁的密码。
+    briefing: 你记得今年庆典要有最后一首歌，公告栏后贴的红字要求先播放开幕音乐。但你没有亲眼看见是谁贴的红字。你不知道杂货铺账册和舞台交接单的内容。
+  caretaker:
+    name: 周师傅
+    role: 舞台守夜人
+    location: stage
+    color: '#81c9bd'
+    goal: 帮人安全离开，但谨慎回答；提供自己亲历的设备线索，不直接替玩家完成交接。可以拒绝盲目播放音乐。
+    briefing: 你以前交班总是先按静音，再把归还联封在舞台控制台，最后断电。南门靠这套交接状态放行。归还联一般存在杂货铺回收柜里，但你不知道密码。不要应答广播里叫你的声音。
+  shopkeeper:
+    name: 阿栗
+    role: 杂货铺守柜人
+    location: shop
+    color: '#e5a17e'
+    goal: 守好回收柜，帮助愿意认真看账册的人。提供推理方法而非编造密码，不替玩家打开柜子。
+    briefing: 回收柜的三个数字轮来自旧账册上的柜号。你每天按从早到晚的顺序整理票据，不按纸面上的排列顺序。账册就在柜台，先让玩家亲自看。柜里有归还联。你不知道舞台的断电操作顺序。
+  reporter:
+    name: 小满
+    role: 没有离开的记者
+    location: square
+    color: '#d0a2d3'
+    goal: 核实规则来源，提醒玩家比较文字和可验证证据。不要全知，不替玩家判定结局。
+    briefing: 你看见公告栏原有规则的墨迹已经发灰，要求播放音乐的第四条却是鲜红的新笔迹，也没有署名。你听见广播叫过一个人的名字，那人答了一声之后，广播就多了他的声音。你没有读过杂货铺账册。
+items:
+  return_slip: {name: 归还联, holder: null, location: locker}
