@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import type { ActorId, Decision, World } from '../investigation/shared/types.js';
 import { CLUE_POINTS, EXIT_POINTS } from '../investigation/shared/scene.js';
+import { demoDecision } from '../investigation/server/agents.js';
 import { createKillerWorld } from '../investigation/server/killer.js';
-import { projectWorld, resolveRound, validateAction } from '../investigation/server/engine.js';
+import { demoNarration, observe, projectWorld, resolveRound, validateAction } from '../investigation/server/engine.js';
 
 const decisionsFor = (world: World): Record<ActorId, Decision> => Object.fromEntries(world.actors.map(actor => [actor.id, {
   intent: '在场景中等待并观察。', action: { kind: 'rest' as const, speech: '' },
@@ -58,6 +59,38 @@ test('NPC supplies dialogue from its own AI proposal; persuasion alone never for
   const next = resolveRound(world, decisions, () => 1, action);
   assert.ok(next.history[1]!.events.some(event => event.kind === 'dialogue' && event.text.includes('再决定该公开哪些材料')));
   assert.equal(next.actors.find(actor => actor.id === 'avery')?.knownClues.includes('home-geiger'), false);
+});
+
+test('an ordinary identity question gets a natural, single NPC reply without an unnecessary persuasion roll', () => {
+  const world = createKillerWorld('test', 'avery', true);
+  const player = world.actors.find(actor => actor.id === 'avery')!;
+  const morgan = world.actors.find(actor => actor.id === 'morgan')!;
+  player.position = { x: morgan.position!.x - 20, y: morgan.position!.y + 2 };
+  const action = { kind: 'talk' as const, target: 'morgan', speech: '你是谁？' };
+  const decisions = decisionsFor(world);
+  const answer = demoDecision(observe(world, 'morgan', { from: 'avery', text: action.speech }));
+  decisions.avery = { intent: '问问摩根的身份。', action };
+  decisions.morgan = { ...answer, action: { kind: 'rest', speech: '' } };
+  const next = resolveRound(world, decisions, () => { throw new Error('ordinary conversation should not roll'); }, action);
+  const replies = next.history[1]!.events.filter(event => event.kind === 'dialogue' && event.replyTo === 'avery');
+  assert.equal(replies.length, 1);
+  assert.match(replies[0]!.text, /我叫摩根，是医生，也是哈格雷夫的老朋友/);
+  assert.equal(next.history[1]!.events.find(event => event.kind === 'talk')?.check, undefined);
+  assert.match(demoNarration(next), /报出了自己的身份/);
+  assert.doesNotMatch(demoNarration(next), /我叫摩根，是医生/);
+});
+
+test('an NPC that has no generated reply still receives one natural fallback line', () => {
+  const world = createKillerWorld('test', 'avery', true);
+  const player = world.actors.find(actor => actor.id === 'avery')!;
+  const morgan = world.actors.find(actor => actor.id === 'morgan')!;
+  player.position = { x: morgan.position!.x - 20, y: morgan.position!.y + 2 };
+  const action = { kind: 'talk' as const, target: 'morgan', speech: '能帮我看一下伤者吗？' };
+  const decisions = decisionsFor(world); decisions.avery = { intent: '请摩根帮忙。', action };
+  const next = resolveRound(world, decisions, () => 50, action);
+  const replies = next.history[1]!.events.filter(event => event.kind === 'dialogue' && event.replyTo === 'avery');
+  assert.equal(replies.length, 1);
+  assert.match(replies[0]!.text, /带我去看看。先确认呼吸和出血情况/);
 });
 
 test('nightfall and radio milestones follow elapsed in-world time, not the number of API calls', () => {

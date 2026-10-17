@@ -217,7 +217,34 @@ export function projectWorld(world: World, viewer: Viewer): WorldView {
 export function demoNarration(world: World): string {
   const round = world.history.at(-1)!;
   if (world.ending) return world.ending;
-  if (isKiller(world)) return round.events.filter(e => e.visibleTo.includes(world.playerActorId!) && !['rest', 'talk'].includes(e.kind)).map(e => e.text).join('\n\n') || '镇上暂时没有新的动静。你可以继续与人交谈，检查现场，或返回小屋思考下一步。';
+  if (isKiller(world)) {
+    const visible = round.events.filter(event => event.visibleTo.includes(world.playerActorId!));
+    const playerId = world.playerActorId!;
+    const playerTalk = visible.find(event => event.kind === 'talk' && event.actorId === playerId);
+    const reply = visible.find(event => event.kind === 'dialogue' && event.replyTo === playerId);
+    if (playerTalk && reply) {
+      const person = world.actors.find(actor => actor.id === reply.actorId)?.name ?? '对方';
+      const identityQuestion = /你是谁|你叫什么|怎么称呼|做什么的|什么职业|介绍一下/.test(playerTalk.text);
+      const hasNewClue = Boolean(reply.clueIds?.length);
+      return identityQuestion
+        ? `${person}报出了自己的身份和来戈夫镇的缘由。交谈告一段落，调查仍由你决定下一步。`
+        : hasNewClue
+          ? `${person}回应了你的问题，也愿意拿出一条线索。其他人仍在按自己的打算行动。`
+          : `${person}回应了你的问题，但你还需要把谈话内容和现场证据对照起来。`;
+    }
+    const playerEvent = visible.find(event => event.actorId === playerId && ['investigate', 'move', 'operate', 'share', 'calm', 'rest'].includes(event.kind));
+    if (playerEvent?.kind === 'investigate') return playerEvent.check?.success
+      ? '你在现场找到了一条值得记录的证据。它能说明什么，还需要和其他发现放在一起核实。'
+      : '这次检查没有得到足够清楚的结果。现场仍有可追查的方向，你可以换个方法再试。';
+    if (playerEvent?.kind === 'move') return '你抵达了新的地点，眼前的人和可调查的物件都变了。接下来的行动由你决定。';
+    if (playerEvent?.kind === 'operate') return playerEvent.check?.success
+      ? '你完成了一项现场安排，局势因此有了新的进展。'
+      : '这次安排没有成功，设备和现场暂时没有改变。';
+    if (playerEvent?.kind === 'share') return '你把掌握的证据交给了同伴。接下来要看它能否帮助大家形成一致的判断。';
+    if (playerEvent?.kind === 'calm') return '你停下来照看受伤或受惊的人，现场的紧张稍稍缓和。';
+    if (playerEvent?.kind === 'rest') return '你用这段时间恢复体力、整理思路。小镇的局势仍在变化。';
+    return '这一轮没有出现新的可见进展。周围的人仍在行动，眼前的调查还没有结束。';
+  }
   const atmosphere = ['雾像一封没有落款的信，慢慢展开。', '灯火在风里摇晃，每个人都在做自己的选择。', '海潮不会等待迟疑的人。今晚的故事，又向前走了一步。'][world.round % 3];
   const highlights = round.events.filter(e => e.kind !== 'world' && !e.private).slice(0, 4).map(e => e.text.replace(/（[^）]*）/g, '')).join('\n\n');
   return `${atmosphere}\n\n${highlights}\n\n${world.danger >= 7 ? '远处的蓝光越发刺眼。那些尚未说出口的秘密，也许正是最后的机会。' : '线索还散落在港口各处，而他们尚不知道，谁会成为今晚最值得信任的人。'}`;

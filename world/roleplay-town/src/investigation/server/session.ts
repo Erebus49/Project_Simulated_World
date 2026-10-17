@@ -107,7 +107,6 @@ export async function playAction(id: string, action: Action) {
     decisions[player.id] = { intent: '玩家亲自选择了这个行动。', action };
     const controlled = previous.actors.filter(actor => actor.id !== player.id && actor.hp > 0);
     const responseTarget = action.kind === 'talk' ? action.target : undefined;
-    const question = responseTarget ? { from: player.id, action } : undefined;
     const errors: string[] = [];
     let cursor = 0;
     const workers = Array.from({ length: Math.min(4, controlled.length) }, async () => {
@@ -128,15 +127,6 @@ export async function playAction(id: string, action: Action) {
       if (next.status === 'active') next.history[next.history.length - 1]!.narration = await provider.narrate(next);
       else next.history[next.history.length - 1]!.narration = next.ending ?? '这一段调查到此结束。';
     } catch { next.history[next.history.length - 1]!.narration = demoNarration(next); }
-    if (responseTarget && !decisions[responseTarget as ActorId]?.reply && responseTarget !== player.id) {
-      const target = next.actors.find(actor => actor.id === responseTarget);
-      if (target) {
-        const round = next.history[next.history.length - 1]!;
-        round.events.push({ id: randomUUID(), round: next.round, actorId: target.id, kind: 'dialogue', locationId: target.locationId,
-          text: `${target.name}：“我还需要时间想一想。先让我把眼前的事处理完。”`, visibleTo: [player.id, target.id], private: true, replyTo: player.id });
-        for (const idToReceive of [player.id, target.id]) next.actors.find(actor => actor.id === idToReceive)!.memories.push({ id: round.events.at(-1)!.id, round: next.round, locationId: target.locationId, text: round.events.at(-1)!.text });
-      }
-    }
     store.save(next, previous.revision);
     memoryWorlds.set(next.id, next);
     activeWorldId = next.id;

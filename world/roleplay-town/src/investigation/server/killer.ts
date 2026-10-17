@@ -113,6 +113,36 @@ export function actionDuration(action: Action | undefined): number {
   }
 }
 
+function needsPersuasionCheck(words: string): boolean {
+  if (/你是谁|你叫什么|怎么称呼|做什么的|什么职业|介绍一下/.test(words)) return false;
+  return /能不能|可不可以|愿不愿意|帮我|帮忙|合作|协作|借|允许|放行|提供|给我|交出|告诉我|说出|解释|证明|相信|批准|调人|派人|支持|证据|线索|档案|记录|样本|报告|你知道什么|看到什么|发现什么|能说说/.test(words);
+}
+
+function declinedRequest(actor: Actor): string {
+  if (actor.id === 'buddy') return '先别急着动我的设备。把计划和损坏后的补偿说清楚，我们再谈。';
+  if (actor.id === 'hudson') return '我现在还不能调人。把能核实的记录带来，我会重新评估。';
+  if (actor.id === 'drako') return '现在不能放行。请先补上可核查的依据，再提交申请。';
+  return '这件事我现在还不能答应。等我确认清楚，再给你答复。';
+}
+
+function conversationalFallback(actor: Actor, question: string): string {
+  if (actor.id === 'morgan' && /伤者|病人|救治|检查|治疗|受伤/.test(question)) return '带我去看看。先确认呼吸和出血情况，其他的等检查完再说。';
+  if (actor.id === 'hargrave' && /帮忙|帮我|怎么办|计划/.test(question)) return '先说说你们手里有什么，我来想想能做些什么。';
+  if (actor.id === 'buddy' && /磁铁|起重机|设备|借/.test(question)) return '先别急着动设备。告诉我你要拿它做什么，坏了谁负责？';
+  if (actor.id === 'pete' && /救|伤者|病人|帮忙/.test(question)) return '我可以帮忙。你先带我去伤者那里，我也得找机会联系家里。';
+  const replies: Partial<Record<ActorId, string>> = {
+    avery: '我还在核对消息。你想问事故，还是镇上的情况？',
+    morgan: '你具体想了解哪一部分？我先把能确认的告诉你。',
+    reed: '你想问设备还是事故？我得先看看实际情况。',
+    hargrave: '你问吧。我知道的会告诉你，没确认的事我不想乱猜。',
+    pete: '你问吧。我知道的就说，不知道的也不会装懂。',
+    buddy: '你问具体些，我还得盯着我的设备。',
+    hudson: '你具体想核实哪一点？有材料的话我可以查。',
+    drako: '说清你要了解的事情，我会告诉你能公开的部分。',
+  };
+  return replies[actor.id] ?? `${actor.name}看了你一眼：“你想问哪件事？”`;
+}
+
 export function resolveKillerRound(previous: World, decisions: Record<ActorId, Decision>, dice: () => number, humanAction?: Action): World {
   if (previous.status !== 'active') throw new Error('调查已经结束');
   const world = structuredClone(previous), s = world.investigation!;
@@ -151,7 +181,6 @@ export function resolveKillerRound(previous: World, decisions: Record<ActorId, D
   const playerId = world.playerActorId!;
   const player = byId(world, playerId);
   const chosenAction = humanAction ?? decisions[playerId]?.action;
-  const directTarget = chosenAction?.kind === 'talk' ? chosenAction.target : undefined;
   const oldMinutes = world.elapsedMinutes;
   const newMinutes = oldMinutes + actionDuration(chosenAction);
   world.elapsedMinutes = newMinutes;
@@ -175,10 +204,6 @@ export function resolveKillerRound(previous: World, decisions: Record<ActorId, D
     const local = world.actors.filter(a => a.locationId === actor.locationId).map(a => a.id);
     const target = world.actors.find(a => a.id === action.target);
     const words = action.speech.trim();
-    if (actor.id === directTarget) {
-      const reply = decision.reply?.trim() || action.speech.trim() || '我还没想好该怎么回答。让我看看手头的事，稍后再谈。';
-      emit(actor, 'dialogue', `${actor.name}对${player.name}说：“${reply}”`, [playerId, actor.id], { replyTo: playerId });
-    }
     if (action.kind === 'move') {
       const from = actor.locationId;
       actor.locationId = action.target as Actor['locationId'];
@@ -206,14 +231,16 @@ export function resolveKillerRound(previous: World, decisions: Record<ActorId, D
     } else if (action.kind === 'talk' && target) {
       const evidence = actor.knownClues.some(id => ['crash-medical', 'cargo-hole', 'motel-victim'].includes(id));
       const bonus = target.id === 'hudson' && evidence ? 20 : target.id === 'buddy' && /补偿|钱|赔|购买/.test(words) ? 20 : Math.min(15, actor.relationships[target.id] * 5);
-      const result = check(actor, 'persuade', bonus);
-      emit(actor, 'talk', `${actor.name}对${target.name}说：“${words || '你能告诉我这里发生了什么吗？'}”`, local, { check: result });
+      const result = needsPersuasionCheck(words) ? check(actor, 'persuade', bonus) : undefined;
+      emit(actor, 'talk', `${actor.name}对${target.name}说：“${words || '你能告诉我这里发生了什么吗？'}”`, local, result ? { check: result } : {});
       const proposedClue = decisions[target.id]?.shareClueId;
       const willingToShare = Boolean(proposedClue && target.knownClues.includes(proposedClue) && !has(actor, proposedClue) && (proposedClue !== 'patrol-report' || world.round >= 3));
       const shared: string[] = [];
-      if (result.success) {
-        actor.relationships[target.id] = Math.min(5, actor.relationships[target.id] + 1);
-        target.relationships[actor.id] = Math.min(5, target.relationships[actor.id] + 1);
+      if (!result || result.success) {
+        if (result) {
+          actor.relationships[target.id] = Math.min(5, actor.relationships[target.id] + 1);
+          target.relationships[actor.id] = Math.min(5, target.relationships[actor.id] + 1);
+        }
         if (willingToShare) { grant(actor, proposedClue!); shared.push(proposedClue!); }
         if (target.id === 'hudson' && evidence && actor.id === world.playerActorId && decisions[target.id]?.acceptsCooperation) { s.authoritiesAllied = true; if (!actor.inventory!.includes('NASA 临时顾问证')) actor.inventory!.push('NASA 临时顾问证'); }
         if (target.id === 'buddy' && actor.id === world.playerActorId && decisions[target.id]?.acceptsCooperation && (magneticKnowledge(actor) || /借|设备|磁铁|补偿/.test(words))) s.magnetAccess = true;
@@ -222,7 +249,8 @@ export function resolveKillerRound(previous: World, decisions: Record<ActorId, D
         const response = decisions[target.id]?.reply?.trim();
         if (response) emit(target, 'dialogue', `${target.name}：“${response}”`, [actor.id, target.id], { replyTo: actor.id, clueIds: shared });
       } else {
-        const response = decisions[target.id]?.reply?.trim() || '对方没有直接回应，只是继续手上的事。';
+        const refused = Boolean(result && !result.success && (willingToShare || decisions[target.id]?.acceptsCooperation));
+        const response = refused ? declinedRequest(target) : decisions[target.id]?.reply?.trim() || conversationalFallback(target, words);
         emit(target, 'dialogue', `${target.name}：“${response}”`, [actor.id, target.id], { replyTo: actor.id, clueIds: shared });
       }
     } else if (action.kind === 'share' && target) {
